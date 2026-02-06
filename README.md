@@ -40,6 +40,8 @@ If you use `supergateway` to expose n8n:
 gemini mcp add n8n-mcp "npx -y supergateway --streamableHttp https://localhost/mcp-server/http --header 'authorization:Bearer <YOUR_TOKEN>'" --trust
 ```
 
+> **⚠️ Security Note:** The `--trust` flag allows the MCP server to execute tools on your behalf. Only use this flag if you fully trust the server and the network connection (e.g., localhost).
+
 **Option B: Direct Connection**
 If your n8n instance is running locally and exposes MCP directly (future support):
 

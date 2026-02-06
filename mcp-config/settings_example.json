@@ -10,7 +10,7 @@
         "--header",
         "authorization:Bearer <YOUR_TOKEN>"
       ],
-      "trust": true
+      "trust": false
     }
   }
 }
