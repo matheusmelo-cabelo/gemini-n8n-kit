@@ -31,20 +31,20 @@ gemini skills install ./skills/n8n-expert --scope user
 ```
 
 ### Step 2: Connect n8n (MCP)
-Connect your n8n instance so Gemini can "see" and "control" your workflows.
+Connect your n8n instance so Gemini can "see" and "control" your workflows. This kit is now optimized for the **official n8n MCP protocol**.
 
-**Option A: Using Supergateway (Recommended)**
-If you use `supergateway` to expose n8n:
+**Option A: Using Standard SSE (Recommended)**
+This is the official transport protocol for the n8n MCP Client.
 
 ```bash
-gemini mcp add n8n-mcp "npx -y supergateway --streamableHttp https://localhost/mcp-server/http --header 'authorization:Bearer <YOUR_TOKEN>'" --trust
+gemini mcp add n8n-mcp "http://localhost:3000/mcp" --header "Authorization: Bearer <YOUR_TOKEN>" --trust
 ```
 
-**Option B: Direct Connection**
-If your n8n instance is running locally and exposes MCP directly (future support):
+**Option B: Using npx (Quick Local Setup)**
+If you haven't deployed the server yet:
 
 ```bash
-gemini mcp add n8n-local "node path/to/mcp-server.js"
+gemini mcp add n8n-mcp "npx -y n8n-mcp" --env "MCP_MODE=stdio" --env "N8N_API_URL=http://localhost:5678" --env "N8N_API_KEY=<YOUR_N8N_KEY>" --trust
 ```
 
 ## 🧠 How to Use
