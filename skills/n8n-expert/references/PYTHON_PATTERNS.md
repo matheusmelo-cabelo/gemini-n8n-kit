@@ -179,20 +179,24 @@ markdown_text = _input.first()["json"]["body"].get("markdown", "")
 tasks = []
 lines = markdown_text.split("\n")
 
+# Compile regex patterns outside the loop for performance
+task_pattern = re.compile(r'^\s*-\s*\[([ x])\]\s*(.+)$', re.IGNORECASE)
+priority_pattern = re.compile(r'\[(P\d|HIGH|MEDIUM|LOW)\]', re.IGNORECASE)
+
 for line in lines:
     # Match: - [ ] Task or - [x] Task
-    match = re.match(r'^\s*-\s*\[([ x])\]\s*(.+)$', line, re.IGNORECASE)
+    match = task_pattern.match(line)
 
     if match:
         checked = match.group(1).lower() == 'x'
         task_text = match.group(2).strip()
 
         # Extract priority if present (e.g., [P1], [HIGH])
-        priority_match = re.search(r'\[(P\d|HIGH|MEDIUM|LOW)\]', task_text, re.IGNORECASE)
+        priority_match = priority_pattern.search(task_text)
         priority = priority_match.group(1).upper() if priority_match else "NORMAL"
 
         # Remove priority tag from text
-        clean_text = re.sub(r'\[(P\d|HIGH|MEDIUM|LOW)\]', '', task_text, flags=re.IGNORECASE).strip()
+        clean_text = priority_pattern.sub('', task_text).strip()
 
         tasks.append({
             "text": clean_text,
